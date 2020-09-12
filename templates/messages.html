@@ -22,7 +22,7 @@
 <body>
 
     <!-- ================= NAV ======================== -->
-    <nav id="navbar" class="navbar navbar-dark" style="background-color:#0d5f8a;">
+    <nav id="navbar" class="navbar navbar-dark" style="background-color:#f51;">
         <span class="navbar-text justify-content-left" style="color: white;">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
@@ -42,11 +42,55 @@
 
     <div class="container">
 
+        <!-- FORM : CREATE A MESSAGE  -->
+        <!-- =============================================== -->
+        <div class="row">
+            <div class="col">
+                <form action="/create" method="post">
+                    <div class="form-group">
+                        <label for="create">Post a message:</label>
+                        <textarea class="form-control" id="create" name="create" rows="3"></textarea>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div>
+
+            <!---- FOR LOOP TO BUILD MESSAGES FROM DATABASE ---->
+            <!-- =============================================== -->
+            {% for message in messages %}
+            
+            <div class="row">
+                <!-- name & date of user who wrote message -->
+                <div class="row">
+                     {{ message.first_name }} {{ message.updated_at }}
+                </div>
+             
+                <!-- message  -->
+                <div class="row">
+                    {{ message.message }}
+                </div>
+            </div>
+
+            {% endfor %}
+
+<!-- [{'id': 1, 'user_id': 1, 'message': "here's the first message!", 'updated_at': datetime.datetime(2020, 9, 11, 18, 51,
+49), 'users.id': 1, 'first_name': 'kelli'}] -->
+        </div>
 
 
 
 
-        
+
+      
+
+
+
+
+
     </div>
 
     <!-- BOOTSTRAP'S: Optional JavaScript -->

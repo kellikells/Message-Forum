@@ -16,17 +16,17 @@ app = Flask(__name__)
 bcrypt = Bcrypt(app)  
 app.secret_key = "ThisIsSecret!"
 
-# ==============================================================
+# =====================================================
 #                     INDEX ROUTE
-# ==============================================================
+# =====================================================
 @app.route('/')
 def index():
     mysql = connectToMySQL('forumsdb')
     return render_template('index.html')
 
-# ==============================================================
+# =======================================================
 #                  REGISTER BUTTON ROUTE
-# ==============================================================
+# =======================================================
 @app.route('/register', methods=['POST'])
 def register():
 
@@ -39,8 +39,8 @@ def register():
     
     # new-email validation
     # --------------------------------------
-    if not EMAIL_REGEX.match(request.form['new-email']):
-        flash("Invalid Email Address!", 'new-email')
+    if not EMAIL_REGEX.match(request.form['email']):
+        flash("Invalid Email Address!", 'email')
 
     # checking if email already exists in db
     # --------------------------------------
@@ -91,9 +91,9 @@ def register():
         return redirect('/')
     
 
-# ========================================================
+# =======================================================
 #                  LOGIN BUTTON ROUTE
-# ========================================================
+# =======================================================
 @app.route('/login', methods=['POST'])
 def login():
     
@@ -119,74 +119,40 @@ def login():
             return redirect("/")
 
 
-# # =======================================================
-# #            GET DATA: after registering/logging in
-# # =======================================================
-# @app.route('/getData', methods=['GET'])
-# def getData():
-#     user_id = session['user_id']
-#     user_level = session['user_level']
-#     print('*****SESSION', session)
-#     print('*****USER_ID', user_id)
+# =======================================================
+#           /getMessages: after logging in
+# =======================================================
+@app.route('/getMessages', methods=['GET'])
+def getMessages():
+    user_id = session['user_id']
 
-#     # data of other users for "send a message"
-#     # -------------------------------------------
-#     mysql = connectToMySQL('forumsdb')
-#     query = "SELECT id, first_name FROM users WHERE NOT (id = %(user_id)s);"
-#     data = {
-#         'user_id': user_id
-#     }
-#     otherUsers = mysql.query_db(query, data)
-
-#     # data to show "received messages", newest first, 5 max
-#     # -------------------------------------------
-#     mysql = connectToMySQL('forumsdb')
-#     message_query = "SELECT user_id, first_name, content, messages.created_at, messages.id FROM messages, users WHERE (receiver_id = %(user_id)s) and user_id = users.id ORDER BY messages.id DESC LIMIT 5;"
-#     message_data = {
-#         'user_id': user_id
-#     }
-#     receivedMessages = mysql.query_db(message_query, message_data)
-
-#     # COUNT sent messages 
-#     # -------------------------------------------
-#     mysql = connectToMySQL('forumsdb')
-#     query = "SELECT COUNT(user_id) FROM forumsdb.messages WHERE user_id = %(user_id)s;"
-#     data = { 'user_id': user_id }
-#     count_sent_messages = mysql.query_db(query, data)
-
-#     count_sent = count_sent_messages[0]['COUNT(user_id)']
-#     print('******** COUNT SENT MESSAGES:', count_sent)
-
-#     # COUNT received messages 
-#     # -------------------------------------------
-#     mysql = connectToMySQL('forumsdb')
-#     query = "SELECT COUNT(receiver_id) FROM forumsdb.messages WHERE receiver_id = %(receiver_id)s;"
-#     data = { 'receiver_id': user_id }
-#     count_received_messages = mysql.query_db(query, data)
- 
-#     count_received = count_received_messages[0]['COUNT(receiver_id)']
-#     print('******** COUNT RECEIVED MESSAGES:', count_received)
-
-#     #SEND ALL OF THIS DATA TO BE MANIPULATED ON HTML
-#     return render_template('messages.html', otherUsers = otherUsers, receivedMessages = receivedMessages, count_sent = count_sent, count_received = count_received)
+    # data to show "ALL messages", newest first, 5 max
+    # -------------------------------------------
+    mysql = connectToMySQL('forumsdb')
+    message_query = "SELECT messages.id, messages.user_id, messages.message, messages.updated_at, users.id, users.first_name FROM messages JOIN users ON messages.user_id = users.id ORDER BY messages.id DESC LIMIT 5;"
+  
+    result = mysql.query_db(message_query)
+    print(result)
+    # SEND ALL OF THIS DATA TO BE MANIPULATED ON HTML
+    return render_template('messages.html', messages=result)
 
 
-# # =====================================================
-# #                 CREATE A MESSAGE
-# # =====================================================
-# @app.route('/create_message', methods=['POST'])
-# def create_message():
-    
-#     mysql = connectToMySQL("forumsdb")
-#     query= "INSERT INTO messages (user_id, receiver_id, content, created_at, updated_at) VALUES (%(user_id)s, %(receiver_id)s, %(content)s, NOW(), NOW());"
-#     data = {
-#         'user_id': session['user_id'],
-#         'receiver_id': request.form['receiverId'],
-#         'content': request.form['sendMsg']
-#         }
-#     mysql.query_db(query, data)
+# =====================================================
+#                 CREATE A MESSAGE
+# =====================================================
+@app.route('/create', methods=['POST'])
+def create():
+    user_id = session['user_id']
 
-#     return redirect('/getData')
+    mysql = connectToMySQL("forumsdb")
+    query= "INSERT INTO messages (user_id, message, created_at, updated_at) VALUES (%(user_id)s, %(message)s, NOW(), NOW());"
+    data = {
+        'user_id': session['user_id'],
+        'message': request.form['create']
+        }
+    mysql.query_db(query, data)
+
+    return redirect('/getMessages')
 
 
 # # =====================================================
