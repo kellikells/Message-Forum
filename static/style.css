@@ -1,37 +1,10 @@
-nav {
-    margin-bottom: 30px;
-}
 
-label {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
+
 
 #createMessage {
     margin-bottom: 60px;
     margin-top: 30px;
 }
 
-#oneMessage {
-    margin: 40px 0;
-}
-
-#messageInfo {
-    color: grey;
-}
-
-#messageText {
-    margin-left: 20px;
-    margin-bottom: 50px;
-}
 
 
-#oneComment {
-    background-color: skyblue;
-    padding: 10px;
-    margin: 20px;
-}
-
-#createComment {
-    background-color: khaki;
-}

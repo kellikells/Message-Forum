@@ -22,7 +22,7 @@
 <body>
 
     <!-- ================= NAV ======================== -->
-    <nav id="navbar" class="navbar navbar-dark" style="background-color:#f51;">
+    <nav id="navbar" class="navbar navbar-dark" style="background-color:#f51; margin-bottom: 30px;">
         <span class="navbar-text justify-content-left" style="color: white;">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor"
                 xmlns="http://www.w3.org/2000/svg">
@@ -44,11 +44,11 @@
 
         <!-- FORM : CREATE A MESSAGE  -->
         <!-- =============================================== -->
-        <div class="row" id="createMessage">
+        <div class="row" style="margin: 30px 0 60px 0;">
             <div class="col">
                 <form action="/create" method="post">
                     <div class="form-group">
-                        <label for="create">Post a message:</label>
+                        <label for="create" style="font-weight: bold; font-size: 1.5rem">Post a message:</label>
                         <textarea class="form-control" id="create" name="create" rows="3"></textarea>
                     </div>
                     <button class="btn btn-warning" type="submit">Post</button>
@@ -65,51 +65,52 @@
 
         <!-- each message has a form used for getting comments -->
         <!-- comments are specific for each message: in hidden input  -->
-        <div>
-
-            <div id="oneMessage">
-                <div class="row" id="oneMessage">
-                    <div class="col" id="oneMessage">
-                        <!-- name & date of user who wrote message -->
-                        <div class="row" id="messageInfo">
-                            <div class="col">
-                                {{ message.first_name }} {{ message.updated_at }}
-                            </div>
-                        </div>
-
-                        <!-- message  -->
-                        <div class="row" id="messageText">
-                            <div class="col">
-                                {{ message.message }}
-                            </div>
-                        </div>
-
-                        <!-- INPUT FOR COMMENT -->
-                        <!-- ============================== -->
-                        <div class="row justify-content-end">
-                            <div class="col-9" >
-                                <form action="/create_comment" method="post">
-
-                                    <!-- hidden input to get the message_id -->
-                                    <input type="hidden" name="messageID" value="{{ message.id }}">
 
 
-                                    <div class="form-group">
-                                        <label for="createComment">Leave a comment:</label>
-                                        <textarea class="form-control" id="createComment" name="createComment"
-                                            rows="3"></textarea>
-                                    </div>
-                                    <button class="btn btn-primary" type="submit">Submit</button>
-                                </form>
-
-                            </div>
-
-                        </div>
+        <div class="row" style="margin: 10px 0 20px 30px;">
+            <div class="col">
+                <!-- name & date of user who wrote message -->
+                <div class="row" style="color:grey;">
+                    <div class="col">
+                        {{ message.first_name }} {{ message.updated_at }}
                     </div>
                 </div>
 
+                <!-- message  -->
+                <div class="row" style="margin:0 0 10px 20px;">
+                    <div class="col">
+                        {{ message.message }}
+                    </div>
+                </div>
+                
+
+                <!-- INPUT FOR COMMENT -->
+                <!-- ============================== -->
+                <div class="row justify-content-end">
+                    <div class="col-9">
+                        <form action="/create_comment" method="post">
+
+                            <!-- hidden input to get the message_id -->
+                            <input type="hidden" name="messageID" value="{{ message.id }}">
+
+
+                            <div class="form-group">
+                                <label for="createComment" style="font-weight: bold; font-size: 1.5rem;">Leave a
+                                    comment:</label>
+                                <textarea class="form-control" name="createComment" rows="3"
+                                    style="background-color:khaki;"></textarea>
+                            </div>
+                            <button class="btn btn-secondary" type="submit">Comment</button>
+                        </form>
+
+                    </div>
+
+                </div>
             </div>
         </div>
+
+
+
         {% endfor %}
 
         <!-- [{'id': 1, 'user_id': 1, 'message': "here's the first message!", 'updated_at': datetime.datetime(2020, 9, 11, 18, 51,
