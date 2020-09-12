@@ -62,22 +62,42 @@
             <!---- FOR LOOP TO BUILD MESSAGES FROM DATABASE ---->
             <!-- =============================================== -->
             {% for message in messages %}
-            
-            <div class="row">
-                <!-- name & date of user who wrote message -->
-                <div class="row">
-                     {{ message.first_name }} {{ message.updated_at }}
-                </div>
-             
-                <!-- message  -->
-                <div class="row">
-                    {{ message.message }}
-                </div>
-            </div>
 
+            <!-- each message has a form used for getting comments -->
+            <!-- comments are specific for each message: in hidden input  -->
+            <form>
+
+
+                <div class="row" id="oneMessage">
+                    <div class="col">
+                        <!-- name & date of user who wrote message -->
+                        <div class="row" id="messageInfo">
+                            <div class="col">
+                                {{ message.first_name }} {{ message.updated_at }}
+                            </div>
+                        </div>
+
+                        <!-- message  -->
+                        <div class="row" id="messageText">
+                            <div class="col">
+                                {{ message.message }}
+                            </div>
+                        </div>
+
+                        <button>
+
+                        </button>
+
+
+                    </div>
+
+                </div>
+
+
+            </form>
             {% endfor %}
 
-<!-- [{'id': 1, 'user_id': 1, 'message': "here's the first message!", 'updated_at': datetime.datetime(2020, 9, 11, 18, 51,
+            <!-- [{'id': 1, 'user_id': 1, 'message': "here's the first message!", 'updated_at': datetime.datetime(2020, 9, 11, 18, 51,
 49), 'users.id': 1, 'first_name': 'kelli'}] -->
         </div>
 
@@ -85,7 +105,7 @@
 
 
 
-      
+
 
 
 

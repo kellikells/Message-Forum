@@ -1,3 +1,18 @@
 nav {
     margin-bottom: 30px;
 }
+
+
+
+#oneMessage {
+    margin: 10px 0;
+}
+
+#messageInfo {
+    color: grey;
+}
+
+
+#messageText {
+    margin-left: 20px;
+}
