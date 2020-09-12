@@ -155,6 +155,24 @@ def create():
     return redirect('/getMessages')
 
 
+# =====================================================
+#                 CREATE A MESSAGE
+# =====================================================
+@app.route('/create_comment', methods=['POST'])
+def create_comment():
+    user_id = session['user_id']
+
+    mysql = connectToMySQL("forumsdb")
+    query= "INSERT INTO comments (message_id, user_id, comment, created_at, updated_at) VALUES (%(message_id)s, %(user_id)s, %(comment)s, NOW(), NOW());"
+    data = {
+        'message_id': request.form['messageID'],
+        'user_id': session['user_id'],
+        'comment': request.form['createComment']
+        }
+    mysql.query_db(query, data)
+
+    return redirect('/getMessages')
+
 # # =====================================================
 # #                 DELETE A MESSAGE
 # # =====================================================
