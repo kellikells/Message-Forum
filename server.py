@@ -110,7 +110,7 @@ def login():
             session['user_id'] = result[0]['id']
             session['user_name'] = result[0]['first_name']
 
-            return redirect('/getMessages')
+            return redirect('/getData')
     
         # if username & password don't match
         # --------------------------------------
@@ -120,21 +120,34 @@ def login():
 
 
 # =======================================================
-#           /getMessages: after logging in
+#           /getData: after logging in
 # =======================================================
-@app.route('/getMessages', methods=['GET'])
-def getMessages():
+@app.route('/getData', methods=['GET'])
+def getData():
     user_id = session['user_id']
 
-    # data to show "ALL messages", newest first, 5 max
+    # data to show "ALL messages", newest first
     # -------------------------------------------
     mysql = connectToMySQL('forumsdb')
-    message_query = "SELECT messages.id, messages.user_id, messages.message, messages.updated_at, users.id, users.first_name FROM messages JOIN users ON messages.user_id = users.id ORDER BY messages.id DESC LIMIT 5;"
+    message_query = "SELECT messages.id, messages.user_id, messages.message, messages.updated_at, users.id, users.first_name FROM messages JOIN users ON messages.user_id = users.id ORDER BY messages.id DESC;"
   
-    result = mysql.query_db(message_query)
-    print(result)
+    message_results = mysql.query_db(message_query)
+
+    # getting all comments with user_id
+    mysql = connectToMySQL('forumsdb')
+    comment_query = "SELECT comments.message_id, comments.comment, comments.created_at, users.first_name FROM comments LEFT JOIN users ON comments.user_id = users.id;"
+
+    comment_results = mysql.query_db(comment_query)
+    print("COMMENT RESULTS::::::::", comment_results)
+
+    # for message in message_results:
+    #     for comment in comment_results:
+    #         if comment.message_id = message.id:
+
+        
+
     # SEND ALL OF THIS DATA TO BE MANIPULATED ON HTML
-    return render_template('messages.html', messages=result)
+    return render_template('messages.html', messages = message_results, comments = comment_results)
 
 
 # =====================================================
@@ -152,7 +165,7 @@ def create():
         }
     mysql.query_db(query, data)
 
-    return redirect('/getMessages')
+    return redirect('/getData')
 
 
 # =====================================================
@@ -171,7 +184,7 @@ def create_comment():
         }
     mysql.query_db(query, data)
 
-    return redirect('/getMessages')
+    return redirect('/getData')
 
 # # =====================================================
 # #                 DELETE A MESSAGE
