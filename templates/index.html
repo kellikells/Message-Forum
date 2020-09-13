@@ -16,11 +16,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body>
+<body style="background-image: url('../static/background.jpg')">
     <div class="container">
-        <div class="jumbotron jumbotron-fluid">
+        <div class="jumbotron jumbotron-fluid" style="background-color: #5ba; opacity:.85; ">
             <div class="container">
-                <h1 class="display-4" style="text-align: center;">Register or Login to access your messages!</h1>
+                <h1 class="display-4" style="text-align: center; color: white; font-weight: bold;">Register or Login to
+                    access your messages!</h1>
             </div>
         </div>
 
@@ -46,7 +47,7 @@
         <div class="row">
 
             <!-- =============== REGISTRATION COLUMN ================== -->
-            <div class="col">
+            <div class="col" style="margin-right:5px; background-color: white; padding: 30px;">
                 <h2>Register here!</h2>
                 <form action="/register" method="post">
 
@@ -132,12 +133,12 @@
                         <input name="confirm-password" type="password" class="form-control" id="confirm-password">
                     </div>
 
-                    <button type="submit" class="btn btn-success" id="bttnSubmit">Register!</button>
+                    <button type="submit" class="btn" id="bttnSubmit" style="background-color: #f51; color: white;">Register!</button>
                 </form>
             </div>
 
             <!-- =============== LOGIN COLUMN ================ -->
-            <div class="col">
+            <div class="col" style="margin-left:5px; background-color: white; padding: 30px;">
                 <h2>Login here!</h2>
                 <form action="/login" method="post">
 
@@ -160,7 +161,7 @@
                         {% endif %}
                         {% endwith %}
                     </div>
-                    <button type="submit" class="btn btn-success" id="bttnSubmit">Login!</button>
+                    <button type="submit" class="btn" id="bttnSubmit" style="background-color: #f51; color: white;">Login!</button>
                 </form>
             </div>
         </div>

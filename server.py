@@ -131,20 +131,15 @@ def getData():
     mysql = connectToMySQL('forumsdb')
     message_query = "SELECT messages.id, messages.user_id, messages.message, messages.updated_at, users.id, users.first_name FROM messages JOIN users ON messages.user_id = users.id ORDER BY messages.id DESC;"
   
+    # use this to loop through on messages.html
     message_results = mysql.query_db(message_query)
 
     # getting all comments with user_id
     mysql = connectToMySQL('forumsdb')
     comment_query = "SELECT comments.message_id, comments.comment, comments.created_at, users.first_name FROM comments LEFT JOIN users ON comments.user_id = users.id;"
 
+    # use this to loop through on messages.html
     comment_results = mysql.query_db(comment_query)
-    print("COMMENT RESULTS::::::::", comment_results)
-
-    # for message in message_results:
-    #     for comment in comment_results:
-    #         if comment.message_id = message.id:
-
-        
 
     # SEND ALL OF THIS DATA TO BE MANIPULATED ON HTML
     return render_template('messages.html', messages = message_results, comments = comment_results)
